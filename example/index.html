@@ -1,0 +1,106 @@
+<!doctype html>
+
+<!--[if lt IE 7 ]> <html lang="ru" class="no-js ie6"> <![endif]-->
+<!--[if IE 7 ]>    <html lang="ru" class="no-js ie7"> <![endif]-->
+<!--[if IE 8 ]>    <html lang="ru" class="no-js ie8"> <![endif]-->
+<!--[if IE 9 ]>    <html lang="ru" class="no-js ie9"> <![endif]-->
+<!--[if (gt IE 9)|!(IE)]><!-->
+<html lang="ru" class="no-js"> <!--<![endif]-->
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+	</head>
+
+	<body>
+		<h1>jQuery.deserialize example</h1>
+		<h2>Test links</h2>
+		<ul>
+			<li><a href="#!txtString=Test+string+1&pwdPassword=passwd&rbRadio=1&selSelect=1&hidden=no+hidden+values">#!txtString=Test+string+1&pwdPassword=passwd&rbRadio=1&selSelect=1&hidden=no+hidden+values</a></li>
+			<li><a href="#!txtString=%D0%BF%D1%80%D0%B8%D0%B2%D0%B5%D1%82+%D0%BC%D0%B8%D1%80!&pwdPassword=%D0%BA%D0%BE%D0%B5+%D1%87%D0%B5%D0%B3%D0%BE+%D0%B5%D1%89%D0%B5&chkCheckbox=test&rbRadio=2&selSelect=2.1&hidden=">#!txtString=%D0%BF%D1%80%D0%B8%D0%B2%D0%B5%D1%82+%D0%BC%D0%B8%D1%80!&pwdPassword=%D0%BA%D0%BE%D0%B5+%D1%87%D0%B5%D0%B3%D0%BE+%D0%B5%D1%89%D0%B5&chkCheckbox=test&rbRadio=2&selSelect=2.1&hidden=</a></li>
+		</ul>
+		<h2>Form</h2>
+		<form id="testForm">
+			<dl>
+				<dt><label for="txtString">Text field</label></dt>
+				<dd><input id="txtString" name="txtString" type="text" value="Hello world!" /></dd>
+			</dl>
+
+			<dl>
+				<dt><label for="pwdPassword">Password field</label></dt>
+				<dd><input id="pwdPassword" name="pwdPassword" type="password" value="password!" /></dd>
+			</dl>
+
+			<dl>
+				<dd><label><input name="chkCheckbox" type="checkbox" value="test" checked="checked" /> checkbox</label></dd>
+			</dl>
+
+			<dl>
+				<dt>Radiobuttons</dt>
+				<dd>
+					<ul>
+						<li><label><input name="rbRadio" type="radio" value="1" /> radio 1</label></li>
+						<li><label><input name="rbRadio" type="radio" value="2" checked="checked" /> radio 2</label></li>
+						<li><label><input name="rbRadio" type="radio" value="3" /> radio 3</label></li>
+						<li><label><input name="rbRadio" type="radio" value="4" /> radio 4</label></li>
+					</ul>
+				</dd>
+			</dl>
+
+			<dl>
+				<dt><label for="selSelect">Select</label></dt>
+				<dd>
+					<select id="selSelect" name="selSelect">
+						<option value="1">option 1</option>
+						<optgroup label="option 2">
+							<option value="2.1" selected="selected">option 2.1</option>
+							<option value="2.2">option 2.2</option>
+							<option value="2.3">option 2.3</option>
+						</optgroup>
+						<option value="3">option 3</option>
+						<option value="4">option 4</option>
+						<option value="5">option 5</option>
+					</select>
+				</dd>
+			</dl>
+
+			<dl>
+				<dt><label for="txtTextarea">Textarea</label></dt>
+				<dd><textarea id="txtTextarea">Hello world again!</textarea></dd>
+			</dl>
+
+			<dl>
+				<dd><button type="submit">Serialize form</button></dd>
+			</dl>
+
+			<input type="hidden" name="hidden" value="test" />
+		</form>
+
+		<h2>Serialized data</h2>
+		<p id="serializedData"></p>
+
+		<script type="text/javascript" src="jquery-1.6.1.min.js"></script>
+		<script type="text/javascript" src="../src/jquery.deserialize.js"></script>
+		<script type="text/javascript">
+			$(function(){
+				$('button[type=submit]').click(function(){
+					$('#serializedData').html($('#testForm').serialize());
+					return false;
+				});
+
+				$('a[href^="#!"]').click(function(evt){
+					var hashBang = /#!(.*)$/.exec(this.href),
+						data = hashBang[1] || '';
+
+					$('#testForm').deserialize(data, true);
+
+					if (data == $('#testForm').serialize())
+						alert('success!');
+					else
+						alert('failure!');
+
+					return false;
+				});
+			});
+		</script>
+	</body>
+</html>

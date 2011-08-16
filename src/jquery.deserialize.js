@@ -48,7 +48,7 @@
 			
 			if (key != ''){
 				if( key in kv ){
-					if( typeof kv[key] !== 'array' )
+					if( $.type(kv[key]) !== 'array' )
 						kv[key] = [kv[key]];
 					
 					kv[key].push(value);

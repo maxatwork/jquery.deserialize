@@ -40,18 +40,28 @@
 			$('select,input[type="text"],input[type="password"],input[type="hidden"],textarea', element).val('');
 		}
 
-		while(split = splits[i++])
-		{
+		var kv = {};
+		while(split = splits[i++]){
 			splitParts = split.split('=');
 			key = splitParts[0] || '';
 			value = (splitParts[1] || '').replace(/\+/g, ' ');
 			
-			if (key != '')
-			{
-				$('input[type="checkbox"][name="'+ key +'"][value="'+ value +'"],input[type="radio"][name="'+ key +'"][value="'+ value +'"]', element).attr('checked', 'checked');
-				$('select[name="'+ key +'"],input[type="text"][name="'+ key +'"],input[type="password"][name="'+ key +'"],input[type="hidden"][name="'+ key +'"],textarea[name="'+ key +'"]', element).val(value);
+			if (key != ''){
+				if( key in kv ){
+					if( $.type(kv[key]) !== 'array' )
+						kv[key] = [kv[key]];
+					
+					kv[key].push(value);
+				}else
+					kv[key] = value;				
 			}
 		}
-	}
+		
+		for( key in kv ){
+			value = kv[key];
+			
+			$('input[type="checkbox"][name="'+ key +'"][value="'+ value +'"],input[type="radio"][name="'+ key +'"][value="'+ value +'"]', element).attr('checked', 'checked');
+			$('select[name="'+ key +'"],input[type="text"][name="'+ key +'"],input[type="password"][name="'+ key +'"],input[type="hidden"][name="'+ key +'"],textarea[name="'+ key +'"]', element).val(value);
+		}
 
 })(jQuery);

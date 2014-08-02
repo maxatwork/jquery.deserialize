@@ -37,7 +37,7 @@
 		if (clearForm)
 		{
 			$('input[type="checkbox"],input[type="radio"]', element).removeAttr('checked');
-			$('select,input[type="text"],input[type="password"],input[type="hidden"],textarea', element).val('');
+			$('select,input[type="text"],input[type="number"],input[type="email"],input[type="password"],input[type="hidden"],textarea', element).val('');
 		}
 
 		var kv = {};
@@ -45,23 +45,23 @@
 			splitParts = split.split('=');
 			key = splitParts[0] || '';
 			value = (splitParts[1] || '').replace(/\+/g, ' ');
-			
+
 			if (key != ''){
 				if( key in kv ){
 					if( $.type(kv[key]) !== 'array' )
 						kv[key] = [kv[key]];
-					
+
 					kv[key].push(value);
 				}else
-					kv[key] = value;				
+					kv[key] = value;
 			}
 		}
-		
+
 		for( key in kv ){
 			value = kv[key];
-			
+
 			$('input[type="checkbox"][name="'+ key +'"][value="'+ value +'"],input[type="radio"][name="'+ key +'"][value="'+ value +'"]', element).prop('checked', true);
-			$('select[name="'+ key +'"],input[type="text"][name="'+ key +'"],input[type="password"][name="'+ key +'"],input[type="hidden"][name="'+ key +'"],textarea[name="'+ key +'"]', element).val(value);
+			$('select[name="'+ key +'"],input[type="text"][name="'+ key +'"],input[type="number"][name="'+ key +'"],input[type="email"][name="'+ key +'"],input[type="password"][name="'+ key +'"],input[type="hidden"][name="'+ key +'"],textarea[name="'+ key +'"]', element).val(value);
 		}
 	}
 })(jQuery);
